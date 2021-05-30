@@ -147,10 +147,32 @@ event TransferEnded (address receiver, uint amount );
     }
 
 
-//Modifiers are used to validate the inputs
-    modifier onlyBefore (uint _time){  require( block.timestamp  <  _time  ); _;}
-    modifier onlyAfter (uint _time){  require( block.timestamp  >  _time  ); _;}
+    /**
+        * @dev Modifiers to manage the holding and release of the token while the conversion is in progress... 
+                    Reverts when dividing by zero.
+    **/
 
+        modifier onlyBefore (uint _time){  require( block.timestamp  <  _time  ); _;}
+        modifier onlyAfter (uint _time){  require( block.timestamp  >  _time  ); _;}
+
+
+ /**
+    * @dev Modifiers to manage the holding and release of the token while the conversion is in progress... 
+    Reverts when dividing by zero.
+    **/
+
+// The total supply of all the tokens 
+
+uint256 totalSupply_;
+
+constructor (uint256 total ) public {
+    totalSupply_ = total ;
+    transfers[msg.sender] = totalSupply_;
+}
+
+function totalSupply() public view returns (uint256) {
+    return totalSupply;
+}
 
 
 }
