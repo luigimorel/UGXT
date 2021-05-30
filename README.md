@@ -1,6 +1,6 @@
-### Introduction
+[![Status](https://img.shields.io/badge/development--mode-this%20project%20is%20still%20a%20work--in--progress-red)](https://github.com/morelmiles/UGXT)
 
-https://img.shields.io/badge/development--mode-this%20project%20is%20still%20a%20work--in--progress-red
+### Introduction
 
 How about transfering Ugandan Shillings to an address without having to change to some other currency?
 
