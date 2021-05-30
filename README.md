@@ -10,7 +10,7 @@ Give the common people (Ugandans, majorly ) to interact with blockchain both dir
 
 ### Development Environment
 
-I used the following tools during the development
+I used the following tools during the development:
 
 ```bash
 
