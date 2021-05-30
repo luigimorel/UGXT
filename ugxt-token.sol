@@ -146,5 +146,11 @@ event TransferEnded (address receiver, uint amount );
          transferEnd = block.timestamp + _transactionEndTime;
     }
 
-    
+
+//Modifiers are used to validate the inputs
+    modifier onlyBefore (uint _time){  require( block.timestamp  <  _time  ); _;}
+    modifier onlyAfter (uint _time){  require( block.timestamp  >  _time  ); _;}
+
+
+
 }
