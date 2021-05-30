@@ -18,3 +18,15 @@ I used the following tools during the development:
 - Solc v6.14.11
 
 ```
+
+### Support this project
+
+You can support the development of this project through these addresses:
+
+```bash
+Bitcoin :   3GocrdwJwXBKGXN2WiMciDSqxDj3uWXcXX
+
+Ethereum:   0x6283C71BDFbb0B1Ab05402728792c2704A3f1602
+
+
+```
