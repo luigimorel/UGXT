@@ -140,9 +140,11 @@ event TransferEnded (address receiver, uint amount );
         uint _transactionStartTime,
         uint _transactionEndTime,
         address payable _receiver
-    ) public {
+    )  {
          receiver = _receiver;
-         transferEnd = now + _transactionStartTime;
-         revealEnd = transferEnd + _transactionEndTime;
+         transferStart = _transactionStartTime;
+         transferEnd = block.timestamp + _transactionEndTime;
     }
+
+    
 }
