@@ -132,54 +132,53 @@ mapping(address => Transfer[]) public transferAmounts ;
 
 // Events that can be used for function calls 
 event Sent(address from, address to, uint amount);
-event Receive(address to, address from, uint amount);
 event withdraw(address to, uint amount);
-event TransferEnded (address receiver, uint amount );
-
+event Convert(address to, uint amount);
 
     constructor (
-        uint _transactionStartTime,
-        uint _transactionEndTime,
-        address payable _receiver
+        address payable _sender,
+        address payable _receiver,
+        uint _amount,
+        uint256 _total
     )  {
          receiver = _receiver;
-         transferStart = _transactionStartTime;
-         transferEnd = block.timestamp + _transactionEndTime;
+         sender = _sender;
+         amount = _amount;
+         total = _total;
     }
-
 
     /**
         * @dev Modifiers to manage the holding and release of the token while the conversion is in progress... 
                     Reverts when dividing by zero.
     **/
 
-        modifier onlyBefore (uint _time){  require( block.tim   estamp  <  _time  ); _;}
+        modifier onlyBefore (uint _time){  require( block.timestamp  <  _time  ); _;}
         modifier onlyAfter (uint _time){  require( block.timestamp  >  _time  ); _;}
 
 
 
-// The total supply of all the tokens 
+/// @dev Get the total number of all the tokens in circulation.
+//   However, they will be tethered to the value of the UGX at the particular day of trading in the global markets 
+/// @return uint256
+/// @inheritdoc	Copies all missing tags from the base function (must be followed by the contract name)
 
-uint256 totalSupply_;
-
-constructor (
-    uint256 total
-     )  {
-    totalSupply_ = total ;
-}
-
-function totalSupply() public view returns (uint256) {
-    return totalSupply;
-}
+// uint256 totalSupply;
+// function totalSupply() public view returns (uint256) {
+//     return totalSupply;
+// }
 
 /**
 * @dev Avoid the re-entracy  by using the Checks-Effects-Interaction to avoid the multiple withdraw of the tokens by the user
  */
-function withdraw() public {
-    uint transferAmount = transferAmounts[msg.sender];
-    transfers[msg.sender] = 0;
-    msg.sender.transfer(transfer)
+function withdraw(address sender, uint balances, uint amount) public {
+        require(balances  <= 0, "Insufficient balance");
+        require(amount >= balance);
+        balances[msg.sender] -= amount;
+        balances[msg.sender].transfer(amount);
 }
+
+/// @dev Send money from one address(sender) to another (receiver) by emitting the `Send event`
+/// @return Documents the return variables of a contract’s function state variable
 
 function send(address receiver, uint amount ) public {
     require(amount  <= balances[msg.sender], "Insufficient amount");
@@ -188,7 +187,13 @@ function send(address receiver, uint amount ) public {
     emit Sent(msg.sender, receiver, amount);
 }
 
-function receive(address sender, uint amount ) public {
-    
+/// @notice Converts the balance of the UGX owner into a token that can be sent as an ERC20 token... 
+/// @dev Takes the balance that is possessed by the owner and returns tokens that can be sent over the network
+/// @return Balance in form of tokens that can be transmitted across the network.
+
+function covert(address sender, uint amount ) {
+    require(amount > 0);
+    balance[msg.sender] = tokens;
+    emit Convert(msg.sender, tokens)
 }
 }
