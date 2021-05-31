@@ -128,11 +128,12 @@ uint amountToTransfer;
  uint public transferEnd;
 bool public ended; 
 
-mapping(address => Transfer[]) public transfers ;
+mapping(address => Transfer[]) public transferAmounts ;
 
-// Event for the start of the conversion 
-event TransferStarted (address sender, uint amount);
-
+// Events that can be used for function calls 
+event Sent(address from, address to, uint amount);
+event Receive(address to, address from, uint amount);
+event withdraw(address to, uint amount);
 event TransferEnded (address receiver, uint amount );
 
 
@@ -152,27 +153,42 @@ event TransferEnded (address receiver, uint amount );
                     Reverts when dividing by zero.
     **/
 
-        modifier onlyBefore (uint _time){  require( block.timestamp  <  _time  ); _;}
+        modifier onlyBefore (uint _time){  require( block.tim   estamp  <  _time  ); _;}
         modifier onlyAfter (uint _time){  require( block.timestamp  >  _time  ); _;}
 
 
- /**
-    * @dev Modifiers to manage the holding and release of the token while the conversion is in progress... 
-    Reverts when dividing by zero.
-    **/
 
 // The total supply of all the tokens 
 
 uint256 totalSupply_;
 
-constructor (uint256 total ) public {
+constructor (
+    uint256 total
+     )  {
     totalSupply_ = total ;
-    transfers[msg.sender] = totalSupply_;
 }
 
 function totalSupply() public view returns (uint256) {
     return totalSupply;
 }
 
+/**
+* @dev Avoid the re-entracy  by using the Checks-Effects-Interaction to avoid the multiple withdraw of the tokens by the user
+ */
+function withdraw() public {
+    uint transferAmount = transferAmounts[msg.sender];
+    transfers[msg.sender] = 0;
+    msg.sender.transfer(transfer)
+}
 
+function send(address receiver, uint amount ) public {
+    require(amount  <= balances[msg.sender], "Insufficient amount");
+    balances[msg.sender] -= amount;
+    balances[receiver]  += amount;
+    emit Sent(msg.sender, receiver, amount);
+}
+
+function receive(address sender, uint amount ) public {
+    
+}
 }
