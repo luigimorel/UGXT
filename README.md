@@ -21,11 +21,11 @@ I used the following tools during the development:
 
 ### TO DO
 
-[] Add a fail-safe mechanisms for the new contract
-[] Restrict the amount of tokens that can be stored in the contract
-[x] Use the Check-Effects-Interactions patterns to verify the withdraw of the token
-[x] Handle authorization for the users within the contract itself
-[x] Add the SafeMath library that can be used to avoid malicious attacks
+- [ ] Add a fail-safe mechanisms for the new contract
+- [ ] Restrict the amount of tokens that can be stored in the contract
+- [x] Use the Check-Effects-Interactions patterns to verify the withdraw of the token
+- [x] Handle authorization for the users within the contract itself
+- [x] Add the SafeMath library that can be used to avoid malicious attacks
 
 ### Support this project
 
