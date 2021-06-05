@@ -141,10 +141,10 @@ event Convert(address to, uint amount);
         uint _amount,
         uint256 _total
     )  {
-         receiver = _receiver;
-         sender = _sender;
-         amount = _amount;
-         total = _total;
+          _receiver = receiver ;
+         _sender = sender ;
+          _amount = amount ;
+         _total = total  ;
     }
 
     /**
@@ -154,7 +154,6 @@ event Convert(address to, uint amount);
 
         modifier onlyBefore (uint _time){  require( block.timestamp  <  _time  ); _;}
         modifier onlyAfter (uint _time){  require( block.timestamp  >  _time  ); _;}
-
 
 
 /// @dev Get the total number of all the tokens in circulation.
@@ -172,7 +171,7 @@ event Convert(address to, uint amount);
  */
 function withdraw(address sender, uint balances, uint amount) public {
         require(balances  <= 0, "Insufficient balance");
-        require(amount >= balance);
+        require(amount >= balances);
         balances[msg.sender] -= amount;
         balances[msg.sender].transfer(amount);
 }
@@ -191,9 +190,9 @@ function send(address receiver, uint amount ) public {
 /// @dev Takes the balance that is possessed by the owner and returns tokens that can be sent over the network
 /// @return Balance in form of tokens that can be transmitted across the network.
 
-function covert(address sender, uint amount ) {
+function covert(address sender, uint amount,  uint balances) public {
     require(amount > 0);
-    balance[msg.sender] = tokens;
-    emit Convert(msg.sender, tokens)
+    balances[msg.sender] = tokens;
+    emit Convert(msg.sender, tokens);
 }
 }
