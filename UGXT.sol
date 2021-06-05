@@ -131,9 +131,14 @@ bool public ended;
 mapping(address => Transfer[]) public transferAmounts ;
 
 // Events that can be used for function calls 
-event Sent(address from, address to, uint amount);
-event withdraw(address to, uint amount);
+event Send(address account_from, address account_to, uint amount);
+event withdraw(address account_from, uint amount);
 event Convert(address to, uint amount);
+    event Approval (
+        address account_owner, 
+        address account_spender, 
+        uint256 _value
+    );
 
     constructor (
         address payable _sender,
@@ -169,22 +174,23 @@ event Convert(address to, uint amount);
 /**
 * @dev Avoid the re-entracy  by using the Checks-Effects-Interaction to avoid the multiple withdraw of the tokens by the user
  */
-function withdraw(address sender, uint balances, uint amount) public {
+function withdraw(address sender, uint balances, uint value) public {
         require(balances  <= 0, "Insufficient balance");
-        require(amount >= balances);
-        balances[msg.sender] -= amount;
-        balances[msg.sender].transfer(amount);
+        require(value >= balances);
+        balances[msg.sender] -= value;
+        balances[msg.sender].transfer(value);
 }
 
 /// @dev Send money from one address(sender) to another (receiver) by emitting the `Send event`
 /// @return Documents the return variables of a contract’s function state variable
 
-function send(address receiver, uint amount ) public {
-    require(amount  <= balances[msg.sender], "Insufficient amount");
-    balances[msg.sender] -= amount;
-    balances[receiver]  += amount;
-    emit Sent(msg.sender, receiver, amount);
-}
+    function transfer(address account_to uint256) public returns (bool success) {
+        require(balanceOf[msg.sender]) >= _value;
+        balanceOf[msg.sender] -= value;
+        balanceOf[_to] += value; 
+        emit Transfer(msg.sender, _to, value);
+        return true;
+    }
 
 /// @notice Converts the balance of the UGX owner into a token that can be sent as an ERC20 token... 
 /// @dev Takes the balance that is possessed by the owner and returns tokens that can be sent over the network
