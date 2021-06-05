@@ -192,6 +192,23 @@ function withdraw(address sender, uint balances, uint value) public {
         return true;
     }
 
+/// @notice Explain to an end user what this does
+/// @dev Tracks the address from which the tokens have been sent from. For example track the transfer event from addr A to B
+/// @param Documents a parameter just like in doxygen (must be followed by parameter name)
+/// @return 
+
+
+    function TransferFrom( address account_from, address account_to, uint256 value) public returns (bool success){
+        require(value <= balanceOf[_from];)
+        require(value <= allowance[_from][msg.sender]);
+        balanceOf[_from] -= value;
+        balanceOf[_to] += value;
+        allowance[_from][msg.sender] -= value;
+        emit Transfer(_from, _to, value); 
+        return true;
+    } 
+
+
 /// @notice Converts the balance of the UGX owner into a token that can be sent as an ERC20 token... 
 /// @dev Takes the balance that is possessed by the owner and returns tokens that can be sent over the network
 /// @return Balance in form of tokens that can be transmitted across the network.
