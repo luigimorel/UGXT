@@ -131,9 +131,14 @@ bool public ended;
 mapping(address => Transfer[]) public transferAmounts ;
 
 // Events that can be used for function calls 
-event Sent(address from, address to, uint amount);
-event withdraw(address to, uint amount);
+event Send(address account_from, address account_to, uint amount);
+event withdraw(address account_from, uint amount);
 event Convert(address to, uint amount);
+    event Approval (
+        address account_owner, 
+        address account_spender, 
+        uint256 _value
+    );
 
     constructor (
         address payable _sender,
@@ -141,10 +146,10 @@ event Convert(address to, uint amount);
         uint _amount,
         uint256 _total
     )  {
-         receiver = _receiver;
-         sender = _sender;
-         amount = _amount;
-         total = _total;
+          _receiver = receiver ;
+         _sender = sender ;
+          _amount = amount ;
+         _total = total  ;
     }
 
     /**
@@ -154,7 +159,6 @@ event Convert(address to, uint amount);
 
         modifier onlyBefore (uint _time){  require( block.timestamp  <  _time  ); _;}
         modifier onlyAfter (uint _time){  require( block.timestamp  >  _time  ); _;}
-
 
 
 /// @dev Get the total number of all the tokens in circulation.
@@ -170,30 +174,48 @@ event Convert(address to, uint amount);
 /**
 * @dev Avoid the re-entracy  by using the Checks-Effects-Interaction to avoid the multiple withdraw of the tokens by the user
  */
-function withdraw(address sender, uint balances, uint amount) public {
+function withdraw(address sender, uint balances, uint value) public {
         require(balances  <= 0, "Insufficient balance");
-        require(amount >= balance);
-        balances[msg.sender] -= amount;
-        balances[msg.sender].transfer(amount);
+        require(value >= balances);
+        balances[msg.sender] -= value;
+        balances[msg.sender].transfer(value);
 }
 
 /// @dev Send money from one address(sender) to another (receiver) by emitting the `Send event`
 /// @return Documents the return variables of a contract’s function state variable
 
-function send(address receiver, uint amount ) public {
-    require(amount  <= balances[msg.sender], "Insufficient amount");
-    balances[msg.sender] -= amount;
-    balances[receiver]  += amount;
-    emit Sent(msg.sender, receiver, amount);
-}
+    function transfer(address account_to uint256) public returns (bool success) {
+        require(balanceOf[msg.sender]) >= _value;
+        balanceOf[msg.sender] -= value;
+        balanceOf[_to] += value; 
+        emit Transfer(msg.sender, _to, value);
+        return true;
+    }
+
+/// @notice Explain to an end user what this does
+/// @dev Tracks the address from which the tokens have been sent from. For example track the transfer event from addr A to B
+/// @param Documents a parameter just like in doxygen (must be followed by parameter name)
+/// @return 
+
+
+    function TransferFrom( address account_from, address account_to, uint256 value) public returns (bool success){
+        require(value <= balanceOf[_from];)
+        require(value <= allowance[_from][msg.sender]);
+        balanceOf[_from] -= value;
+        balanceOf[_to] += value;
+        allowance[_from][msg.sender] -= value;
+        emit Transfer(_from, _to, value); 
+        return true;
+    } 
+
 
 /// @notice Converts the balance of the UGX owner into a token that can be sent as an ERC20 token... 
 /// @dev Takes the balance that is possessed by the owner and returns tokens that can be sent over the network
 /// @return Balance in form of tokens that can be transmitted across the network.
 
-function covert(address sender, uint amount ) {
+function covert(address sender, uint amount,  uint balances) public {
     require(amount > 0);
-    balance[msg.sender] = tokens;
-    emit Convert(msg.sender, tokens)
+    balances[msg.sender] = tokens;
+    emit Convert(msg.sender, tokens);
 }
 }
