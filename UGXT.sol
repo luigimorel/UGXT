@@ -219,3 +219,8 @@ function covert(address sender, uint amount,  uint balances) public {
     emit Convert(msg.sender, tokens);
 }
 }
+
+// Pseudocode for the burning of the tokens that will be used to send the tokens 
+function GetBurnAddress(address burnAddress){
+    
+}
